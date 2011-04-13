@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="charset" content="utf-8">
+  
+  <script src="../lib/jquery.js" type="text/javascript" charset="utf-8"></script>
+    
+  <script type="text/javascript" charset="utf-8">
+    jQuery(function($){
+      $("#fileInput").change(function(){
+                
+        var file = $(this).attr("files")[0];
+                
+        if ( !file ) return;
+        
+        console.log("Reading:", file);
+        
+        var bufferSize = 1024;
+        var pos = 0;
+
+        var onload = function(e){
+          console.log("Read: ", e.target.result);
+        };
+        
+        var onerror = function(e){
+          console.log("Error!", e);
+        }
+
+        while (pos < file.size) {
+          var blob = file.slice(pos, bufferSize);
+          
+          var reader = new FileReader();
+          reader.onload  = onload;
+          reader.onerror = onerror;
+          reader.readAsText(blob);
+          
+          pos += bufferSize;
+        }
+      });
+    })  
+  </script>
+</head>
+<body>
+  <input type="file" value="" id="fileInput">
+</body>
+</html>

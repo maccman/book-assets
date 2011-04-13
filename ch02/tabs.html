@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="charset" content="utf-8">
+  <script src="../lib/jquery.js" type="text/javascript" charset="utf-8"></script>
+  
+  <script type="text/javascript" charset="utf-8">
+    jQuery.fn.tabs = function(control){
+      var element = $(this);
+      control = $(control);
+
+      element.delegate("li", "click", function(){
+        // Retrieve tab name
+        var tabName = $(this).attr("data-tab");
+
+        // Fire custom event on tab click
+        element.trigger("change.tabs", tabName);
+      });
+
+      // Bind to custom event
+      element.bind("change.tabs", function(e, tabName){
+        element.find("li").removeClass("active");
+        element.find(">[data-tab='" + tabName + "']").addClass("active");
+      });
+
+      element.bind("change.tabs", function(e, tabName){
+        control.find(">[data-tab]").removeClass("active");
+        control.find(">[data-tab='" + tabName + "']").addClass("active");
+      });
+
+      // Activate first tab
+      var firstName = element.find("li:first").attr("data-tab");
+      element.trigger("change.tabs", firstName);
+
+      return this;
+    };
+  </script>
+  
+  <script type="text/javascript" charset="utf-8">
+    jQuery(function($){
+      $("#tabs").tabs("#main");
+    })
+  </script>
+  
+  <style type="text/css" media="screen">
+    #tabs {
+      list-style: none;
+      overflow: hidden;
+    }
+    
+    #tabs li {
+      float: left;
+      padding: 10px;
+    }
+  
+    #main div {
+      display: none;
+    }
+    
+    #main .active {
+      display: block;
+    }
+  </style>
+<body>
+  <ul id="tabs">
+    <li data-tab="sect1">Sect1</li>
+    <li data-tab="sect2">Sect2</li>
+    <li data-tab="sect3">Sect3</li>
+    <li data-tab="sect4">Sect4</li>
+    <li data-tab="sect5">Sect5</li>
+  </ul>
+  
+  <div id="main">
+    <div data-tab="sect1">Sect1 content</div>
+    <div data-tab="sect2">Sect2 content</div>
+    <div data-tab="sect3">Sect3 content</div>
+    <div data-tab="sect4">Sect4 content</div>
+    <div data-tab="sect5">Sect5 content</div>
+  </div>
+</body>
+</html>

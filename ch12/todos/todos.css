@@ -1,0 +1,218 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font-weight: inherit;
+  font-style: inherit;
+  font-size: 100%;
+  font-family: inherit;
+  vertical-align: baseline;
+}
+
+body {
+  line-height: 1;
+  color: black;
+  background: white;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+a img {
+  border: none;
+}
+
+html {
+  background: #eeeeee;
+}
+
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.4em;
+  background: #eeeeee;
+  color: #333333;
+}
+
+#todoapp {
+  width: 480px;
+  margin: 0 auto 40px;
+  background: white;
+  padding: 20px;
+  -moz-box-shadow: rgba(0, 0, 0, 0.2) 0 5px 6px 0;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0 5px 6px 0;
+  -o-box-shadow: rgba(0, 0, 0, 0.2) 0 5px 6px 0;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 5px 6px 0;
+}
+
+#todoapp h1 {
+  font-size: 36px;
+  font-weight: bold;
+  text-align: center;
+  padding: 20px 0 30px 0;
+  line-height: 1;
+}
+
+#create-todo {
+  position: relative;
+}
+
+#create-todo input {
+  width: 466px;
+  font-size: 24px;
+  font-family: inherit;
+  line-height: 1.4em;
+  border: 0;
+  outline: none;
+  padding: 6px;
+  border: 1px solid #999999;
+  -moz-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
+  -o-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
+}
+
+#create-todo input::-webkit-input-placeholder {
+  font-style: italic;
+}
+
+#create-todo span {
+  position: absolute;
+  z-index: 999;
+  width: 170px;
+  left: 50%;
+  margin-left: -85px;
+}
+
+
+#todo-list {
+  margin-top: 10px;
+}
+
+#todo-list li {
+  padding: 12px 20px 11px 0;
+  position: relative;
+  font-size: 24px;
+  line-height: 1.1em;
+  border-bottom: 1px solid #cccccc;
+}
+
+#todo-list li:after {
+  content: "\0020";
+  display: block;
+  height: 0;
+  clear: both;
+  overflow: hidden;
+  visibility: hidden;
+}
+
+#todo-list li.editing {
+  padding: 0;
+  border-bottom: 0;
+}
+
+#todo-list .editing .display,
+#todo-list .edit {
+  display: none;
+}
+
+#todo-list .editing .edit {
+  display: block;
+}
+
+#todo-list .editing input {
+  width: 444px;
+  font-size: 24px;
+  font-family: inherit;
+  margin: 0;
+  line-height: 1.6em;
+  border: 0;
+  outline: none;
+  padding: 10px 7px 0px 27px;
+  border: 1px solid #999999;
+  -moz-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
+  -o-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
+}
+
+#todo-list .check {
+  position: relative;
+  top: 9px;
+  margin: 0 10px 0 7px;
+  float: left;
+}
+
+#todo-list .done .todo-content {
+  text-decoration: line-through;
+  color: #777777;
+}
+
+#todo-list .todo-destroy {
+  position: absolute;
+  right: 5px;
+  top: 14px;
+  display: none;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  background: url(destroy.png) no-repeat 0 0;
+}
+
+#todo-list li:hover .todo-destroy {
+  display: block;
+}
+
+#todo-list .todo-destroy:hover {
+  background-position: 0 -20px;
+}
+
+#todo-stats {
+  *zoom: 1;
+  margin-top: 10px;
+  color: #777777;
+}
+
+#todo-stats:after {
+  content: "\0020";
+  display: block;
+  height: 0;
+  clear: both;
+  overflow: hidden;
+  visibility: hidden;
+}
+
+#todo-stats .todo-count {
+  float: left;
+}
+
+#todo-stats .todo-count .number {
+  font-weight: bold;
+  color: #333333;
+}
+
+#todo-stats .todo-clear {
+  float: right;
+}
+
+#todo-stats .todo-clear a {
+  color: #777777;
+  font-size: 12px;
+}
+
+#todo-stats .todo-clear a:visited {
+  color: #777777;
+}
+
+#todo-stats .todo-clear a:hover {
+  color: #336699;
+}

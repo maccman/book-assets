@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Growl</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
+  
+  <style type="text/css" media="screen">
+    html, body {
+      height: 100%;
+      padding: 0;
+      margin: 0;
+    }
+  
+    body {
+      font-family: Helvetica, Arial, "MS Trebuchet", sans-serif;
+      color: #363636;
+      -webkit-user-select: none;
+      line-height: 1.2em;
+      
+      background: #778091;
+      background: -webkit-gradient(linear, left top, left bottom, from(#778091), to(#5D6778));
+      background: -moz-linear-gradient(top, #778091, #5D6778);
+    }
+    
+    
+    button {
+      border: 1px solid #BBBBBB;
+      color: #000;
+      font-size: 25px;
+      padding: 6px 10px;
+      margin: 1px 1px 1px 0;
+      outline: none;
+
+      background: #F9F9F9;
+      background: -webkit-gradient(linear, left top, left bottom, from(#F9F9F9), to(#E3E3E3));
+      background: -moz-linear-gradient(top, #F9F9F9, #E3E3E3);
+      
+      border: 1px solid #5B6065;
+      margin: 20px;
+      
+      border-radius: 3px;
+      -moz-border-radius: 3px;
+      -webkit-border-radius: 3px;
+            
+      box-shadow: 0 1px 1px #FFF;
+      -moz-box-shadow: 0 1px 1px #FFF;
+      -webkit-box-shadow: 0 1px 1px #FFF;
+    }
+    
+    button:active {
+      background: #E3E3E3;
+      background: -webkit-gradient(linear, left top, left bottom, from(#E3E3E3), to(#F9F9F9));
+      background: -moz-linear-gradient(top, #E3E3E3, #F9F9F9);
+    }
+    
+  </style>
+  
+  <style type="text/css" media="screen">
+    #growl {
+      position: absolute;
+      bottom: 10px;
+      right: 20px;
+      overflow: hidden;
+    }
+
+    #growl .msg {
+      border: 1px solid #171717;
+      color: #E4E4E4;
+      text-shadow: 0 -1px 1px #0A131A;
+  
+      font-weight: bold;
+      width: 200px;
+      min-height: 30px;
+      padding: 10px;
+      font-size: 15px;
+      margin-bottom: 10px;
+  
+      background: #141517;
+      background: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.3)), color-stop(0.8, rgba(255, 255, 255, 0))), rgba(0, 0, 0, 0.8);
+  
+      box-shadow: inset 0 1px 1px #8E8E8E;
+      -webkit-box-shadow: inset 0 1px 1px #8E8E8E;
+      -moz-box-shadow: inset 0 1px 1px #8E8E8E;
+  
+      border-radius: 7px;
+      -webkit-border-radius: 7px;
+      -moz-border-radius: 7px;
+    }
+  </style>
+  
+  <script type="text/javascript" charset="utf-8">
+    (function($){
+      var container = $("<div />");
+      container.attr({id: "growl"});
+
+      $(function(){
+        $("body").append(container);
+      });
+      
+      $.growl = function(body){
+        // Create the Growl div
+        var msg = $("<div />").addClass("msg");
+        msg.html(body);
+
+        // Append it to the list
+        container.append(msg);
+
+        // Add a drop effect, and then remove
+        msg.show("drop", { 
+          direction: "down", 
+          distance: 50 
+        }, 300).
+          delay(2000).
+          fadeOut(300, function(){
+            $(this).remove();
+          });
+
+        return msg;
+      };
+    })(jQuery);
+  </script>
+  
+  <script type="text/javascript" charset="utf-8">
+    var notices = ["Some dummy text", "Some more dummy text", "What, you want more?", "There's no pleasing some people", "That's it - I'm on strike!"];
+    var lorum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
+  
+    jQuery(function($){
+      $("button").click(function(){
+        $.growl(notices.shift() || lorum);
+      })
+    })
+  </script>
+</head>
+
+<body>
+  
+  <button>Click me!</button>
+</body>
+</html>

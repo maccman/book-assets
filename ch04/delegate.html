@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="charset" content="utf-8">
+  <script src="../lib/jquery.js" type="text/javascript" charset="utf-8"></script>
+  
+  <script type="text/javascript" charset="utf-8">
+    (function($, exports){
+      var mod = {};
+      
+      mod.create = function(includes){
+        var result = function(){
+          this.init.apply(this, arguments);
+        };
+        
+        result.fn = result.prototype;
+        result.fn.init = function(){};
+        
+        result.proxy = function(func){ return $.proxy(func, this); };
+        result.fn.proxy = result.proxy;
+
+        result.include = function(ob){ $.extend(this.fn, ob); }; 
+        result.extend = function(ob){  $.extend(this, ob); };
+        if (includes) result.include(includes)
+        
+        return result;
+      };
+      
+      exports.Controller = mod;
+    })(jQuery, window);
+    
+    var exports = this;
+    
+    jQuery(function($){
+      exports.SearchView = Controller.create({
+        elements: {
+          "input[type=search]": "searchInput",
+          "form": "searchForm"
+        },
+        
+        events: {
+          "submit form": "search"
+        },
+        
+        init: function(element){
+          this.el = $(element);
+          this.refreshElements();
+          this.delegateEvents();
+        },
+        
+        search: function(){
+          alert("Searching: " + this.searchInput.val());
+          return false;
+        },
+        
+        // Private
+        
+        $: function(selector){
+          return $(selector, this.el);
+        },
+        
+        refreshElements: function(){
+          for (var key in this.elements) {
+            this[this.elements[key]] = this.$(key);
+          }
+        },
+        
+        eventSplitter: /^(\w+)\s*(.*)$/,
+        
+        delegateEvents: function(){
+          for (var key in this.events) {
+            var methodName = this.events[key];
+            var method     = this.proxy(this[methodName]);
+
+            var match      = key.match(this.eventSplitter);
+            var eventName  = match[1], selector = match[2];
+
+            if (selector === '') {
+              this.el.bind(eventName, method);
+            } else {
+              this.el.delegate(selector, eventName, method);
+            }
+          }
+        }
+      });
+      
+      new SearchView("#users");
+    });
+  </script>
+</head>
+<body>
+  <div id="users">
+    <form>
+      <input type="search" value="" placeholder="Enter a query">
+      <button>Search</button>
+    </form>
+  </div>
+</body>

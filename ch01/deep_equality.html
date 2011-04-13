@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="lib/underscore.js" type="text/javascript" charset="utf-8"></script>
+  
+  <meta name="charset" content="utf-8">
+  <script type="text/javascript" charset="utf-8">
+    var assertEqual = function(val1, val2, msg) {
+      if (!_.isEqual(val1, val2))
+        throw(msg || (val1 + " does not equal " + val2));
+    };
+  </script>
+  
+  <script type="text/javascript" charset="utf-8">
+    // Compare objects with deep equality check
+    assertEqual( {one: 1}, {one: 1} );
+  </script>
+</head>
+<body>
+</body>
+</html>

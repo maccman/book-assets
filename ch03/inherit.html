@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="charset" content="utf-8">
+  <script src="../lib/jquery.js"></script>
+  <script src="../lib/seedrandom.js"></script>
+  
+  <script type="text/javascript" charset="utf-8">
+  
+  if (typeof Object.create !== "function")
+      Object.create = function(o) {
+        function F() {}
+        F.prototype = o;
+        return new F();
+      };
+
+  Math.seedrandom("foo");
+
+  Math.guid = function(){
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+      return v.toString(16);
+    }).toUpperCase();      
+  };
+
+  var Model = {
+    init: function(){ },
+    
+    prototype: {
+      init: function(){}
+    },
+    
+    create: function(){
+      var object = Object.create(this);
+      object.parent = this;
+      object.init.apply(object, arguments);
+      return object;
+    },
+    
+    inst: function(){
+      var instance = Object.create(this.prototype);
+      instance.parent = this;
+      instance.init.apply(instance, arguments);
+      return instance;
+    },
+    
+    extend: function(o){
+      jQuery.extend(this, o);
+    },
+    
+    include: function(o){
+      jQuery.extend(this.prototype, o);
+    }
+  };
+  
+  Model.proxy = Model.prototype.proxy = function(func){
+    var thisObject = this;
+    return(function(){ 
+      return func.apply(thisObject, arguments); 
+    });
+  };
+  
+  Model.extend({
+    init: function(){
+      this.records = {};
+      this.attributes = [];
+    },
+    
+    find: function(id){
+      var record = this.records[id];
+      if ( !record ) throw("Unknown record");
+      return record.dup();
+    },
+    
+    populate: function(values){
+      this.records = {};
+      
+      for (var i=0, il = values.length; i < il; i++) {    
+        var record = this.inst(values[i]);
+        record.newRecord = false;
+        this.records[record.id] = record;
+      }
+    }
+  });
+  
+  Model.include({
+    newRecord: true,
+
+    init: function(atts){
+      if (atts) this.load(atts);
+    },
+    
+    load: function(attributes){
+      for(var name in attributes)
+        this[name] = attributes[name];
+    },
+    
+    attributes: function(){
+      var result = {};
+      for(var i in this.parent.attributes) {
+        var attr = this.parent.attributes[i];
+        result[attr] = this[attr];
+      }
+      result.id = this.id;
+      return result;
+    },
+    
+    create: function(){
+      if ( !this.id ) this.id = Math.guid();
+      this.newRecord = false;
+      this.parent.records[this.id] = this.dup();
+    },
+    
+    update: function(){
+      this.parent.records[this.id] = this.dup();
+    },
+    
+    save: function(){
+      this.newRecord ? this.create() : this.update();            
+    },
+    
+    destroy: function(){
+      delete this.parent.records[this.id];
+    },
+    
+    dup: function(){
+      return jQuery.extend(true, {}, this);
+    },
+    
+    toJSON: function(){
+      return(this.attributes());
+    }
+  });
+  
+  var Asset = Model.create("Asset");
+  var Person = Model.create("Person");
+  
+  var asset = Asset.inst();
+  asset.load({one: 1});
+    
+  </script>
+</body>
+</html>

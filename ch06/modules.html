@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="charset" content="utf-8">
+
+  <script src="../lib/jquery.js" type="text/javascript" charset="utf-8"></script>
+
+  <script type="text/javascript" charset="utf-8">
+    // Controller lib
+    (function($, exports){
+      var mod = function(){};
+      mod.fn  = mod.prototype;
+      
+      mod.fn.proxy = function(func){
+        return $.proxy(func, this);
+      };
+      
+      mod.fn.load = function(func){
+        $(this.proxy(func));
+      };
+      
+      mod.fn.include = function(ob){
+        $.extend(this, ob);
+      };
+      
+      exports.Controller = mod;
+    })(jQuery, window);
+  </script>
+  
+  <script type="text/javascript" charset="utf-8">
+    (function($, Controller){
+      
+      var mod = new Controller;
+      
+      mod.toggleClass = function(e){ 
+        this.view.toggleClass("over", e.data);
+      };
+      
+      mod.load(function(){
+        this.view = $("#view");
+        this.view.mouseover(this.proxy(this.toggleClass), true);
+        this.view.mouseout(this.proxy(this.toggleClass), false);
+      });
+      
+    })(jQuery, Controller);
+  </script>
+  
+  <style type="text/css" media="screen">
+    #view {
+      margin: 20px;
+      padding: 20px;
+      width: 100px;
+      border: 5px dashed blue;
+    }
+    
+    #view.over {
+      border-color: red;
+    }
+  </style>
+</head>
+<body>
+  <div id="view">Mouse over me</div>
+</body>
+</html>

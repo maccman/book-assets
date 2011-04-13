@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="charset" content="utf-8">
+  
+  <style type="text/css" media="screen">
+    #dragme { width: 100px; height: 100px; background: darkGrey; padding: 5px; }
+  </style>
+    
+  <script type="text/javascript" charset="utf-8">
+    window.addEventListener("load", function(){
+      var element = document.getElementById("dragme");
+      element.addEventListener("dragstart", function(e){
+        e.dataTransfer.setData('Text', "Hello world");
+      })
+    });
+  </script>
+</head>
+<body>
+  <div id="dragme" draggable="true">Drag me!</div>
+</body>
+</html>

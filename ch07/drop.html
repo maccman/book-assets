@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="charset" content="utf-8">
+  
+  <style type="text/css" media="screen">
+    #dropzone { margin: 2em; background: red; color: #FFF; padding: 2em; }
+  </style>
+    
+  <script type="text/javascript" charset="utf-8">
+    window.addEventListener("load", function(){
+      var element = document.getElementById("dropzone");
+      
+      element.addEventListener("dragenter", function(e){
+        e.stopPropagation();
+        e.preventDefault();
+      });
+      
+      element.addEventListener("dragover", function(e){
+        e.dataTransfer.dropEffect = "copy";
+        
+        e.stopPropagation();
+        e.preventDefault();
+      });
+      
+      element.addEventListener("drop", function(e){
+        var files = e.dataTransfer.files;
+        
+        for (var i=0; i < files.length; i++)
+          alert("Dropped " + files[i].name);
+      });
+      
+      // Prevent default behaviour
+      document.body.addEventListener("dragover", function(e){
+        e.stopPropagation();
+        e.preventDefault();
+        return false;
+      });
+    });
+  </script>
+</head>
+<body>
+  <div id="dropzone">Drop files on me</div>
+</body>
+</html>

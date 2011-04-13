@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="charset" content="utf-8">
+  <script type="text/javascript" charset="utf-8">
+    var assert = function(value, msg) {
+      if ( !value )
+        throw(msg || (value + " does not equal true"));
+    };
+
+    var assertEqual = function(val1, val2, msg) {
+      if (val1 !== val2)
+        throw(msg || (val1 + " does not equal " + val2));
+    };
+  </script>
+  
+  <script type="text/javascript" charset="utf-8">
+    assert( true );
+    
+    assertEqual( 1, 1 );
+  </script>
+</head>
+<body>
+</body>
+</html>

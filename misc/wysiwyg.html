@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="charset" content="utf-8">
+  <script src="lib/jquery.js" type="text/javascript" charset="utf-8"></script>
+  
+  <script type="text/javascript" charset="utf-8">
+    (function($){
+      var selectedText = function(){
+        if (document.selection) {
+          return document.selection.createRange().text;
+        } else {
+          return document.getSelection().toString();
+        }
+      };
+
+      var selectTest = function(){
+        if (selectedText().length == 0) {
+          alert("Select some text first.");
+          throw "No selection";
+        }
+      };
+
+      $.fn.exec = function(type, arg){    
+        document.execCommand(type, false, arg || null);
+        return this;
+      };
+
+      $.fn.wysiwyg = function(){
+        var element = $(this);
+        element.attr("contentEditable", true);
+
+        var bold = function(){
+          element.exec("bold");
+        };
+
+        var italic = function(){
+          element.exec("italic");
+        };
+
+        var list = function(){
+          element.exec("insertUnorderedList");
+        };
+
+        var link = function(){
+          selectTest();
+
+          element.exec("unlink");
+          var href = prompt("Enter a link:", "http://");
+          if ( !href || href == "http://" ) return;
+          if ( !(/:\/\//).test(href) ) href = "http://" + href;
+          element.exec("createLink", href);
+        };
+
+        var val = function(){
+          return element.html();
+        };
+
+        return({
+          bold:   bold,
+          italic: italic,
+          list:   list,
+          link:   link,
+          val:    val
+        });
+      };
+    })(jQuery);
+  </script>
+  
+  <script type="text/javascript" charset="utf-8">
+    jQuery(function($){
+      var controls = $("#editor").wysiwyg();
+      
+      $("#controls").delegate("a", "click", function(){
+        controls[$(this).attr("data-type")]();
+        return false;
+      });
+    })
+  </script>
+  
+  <style type="text/css" media="screen">
+    #editor {
+      padding: 5px;
+      border: 1px solid #000;
+      min-height: 200px;
+    }
+  </style>
+</head>
+<body>
+  <div id="controls">
+    <a href="#" data-type="bold">Bold</a>
+    <a href="#" data-type="italic">Italic</a>
+    <a href="#" data-type="list">List</a>
+    <a href="#" data-type="link">Link</a>
+  </div>
+  <div id="editor"></div>
+</body>
+</html>

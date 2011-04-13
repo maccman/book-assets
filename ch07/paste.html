@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="charset" content="utf-8">
+  
+  <script src="../lib/jquery.js" type="text/javascript" charset="utf-8"></script>
+    
+  <script type="text/javascript" charset="utf-8">
+    jQuery(function($){
+      $("#pastezone").bind("paste", function(event){
+        event.stopPropagation();
+        event.preventDefault();
+
+        $("#result").empty();
+        
+        var cd = event.originalEvent.clipboardData;
+        
+        $("#result").text(cd.getData("text/plain"));
+      })
+    })  
+  </script>
+</head>
+<body>
+  <textarea id="pastezone" placeholder="Paste here"></textarea>
+  <div id="result">
+    
+  </div>
+</body>
+</html>

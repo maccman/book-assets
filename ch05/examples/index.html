@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Linky</title>
+  <script src="lib/jquery.js" type="text/javascript" charset="utf-8"></script>
+  <script src="lib/jquery.tmpl.js" type="text/javascript" charset="utf-8"></script>  
+  <script src="../jquery.link.js" type="text/javascript" charset="utf-8"></script>
+  
+  <script type="text/javascript" charset="utf-8">
+    jQuery(function($){
+      var object  = {
+        name: "Test Name"
+      };
+            
+      $("#user").link(object, function(e, data){
+        $(this).empty();
+        $(this).append($("#userTmpl").tmpl(data));  
+      });
+      
+      object.change();
+      
+      setTimeout(function(){
+        object.name = "Test 2";
+        object.change();        
+      }, 2000)
+    });
+  </script>
+</head>
+
+<body>
+  <script id="userTmpl" type="text/x-jquery-tmpl" charset="utf-8">
+    <span>${name}</span>
+  </script>
+  
+  <div id="user">
+  </div>
+</body>
+</html>

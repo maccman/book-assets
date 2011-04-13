@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Linky</title>
+  <script src="lib/jquery.js" type="text/javascript" charset="utf-8"></script>
+  <script src="lib/jquery.tmpl.js" type="text/javascript" charset="utf-8"></script>  
+  <script src="../jquery.link.js" type="text/javascript" charset="utf-8"></script>
+
+  <script src="lib/klass.js" type="text/javascript" charset="utf-8"></script>
+  <script src="lib/pubsub.js" type="text/javascript" charset="utf-8"></script>
+  <script src="lib/model.js" type="text/javascript" charset="utf-8"></script>
+  <script src="lib/model.link.js" type="text/javascript" charset="utf-8"></script>
+  
+  <script type="text/javascript" charset="utf-8">
+    var User = Model.setup("User", ["name"]);
+    
+    User.populate([{name: "First one"}]);
+  
+    jQuery(function($){       
+      $("#users").link(User, function(){
+        var template = $("#userTmpl").tmpl(User.all());
+        
+        $(this).empty();        
+        $(this).append(template);
+      });
+      
+      User.change();
+      
+      setTimeout(function(){
+        User.create({name: "Another one"});
+      }, 2000);
+    });
+  </script>
+</head>
+
+<body>
+  <script id="userTmpl" type="text/x-jquery-tmpl">
+    <li>${name}</li>
+  </script>
+  
+  <ul id="users">
+  </ul>
+</body>
+</html>

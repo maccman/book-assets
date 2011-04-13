@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="charset" content="utf-8">
+  
+  <script src="../lib/jquery.js" type="text/javascript" charset="utf-8"></script>
+    
+  <script type="text/javascript" charset="utf-8">
+    jQuery(function($){
+      $("body").bind("copy", function(event){
+        event.stopPropagation();
+        event.preventDefault();
+                
+        var cd = event.originalEvent.clipboardData;
+        cd.setData("text/plain", "who goes there?");
+      })
+    })  
+  </script>
+</head>
+<body>
+  <textarea id="copyzone" placeholder="copy here"></textarea>
+</body>
+</html>

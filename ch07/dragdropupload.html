@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="charset" content="utf-8">
+  
+  <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.0/themes/base/jquery-ui.css" type="text/css"  charset="utf-8">
+  <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.0/themes/smoothness/jquery-ui.css" type="text/css" charset="utf-8">
+  
+  <script src="../lib/jquery.js" type="text/javascript" charset="utf-8"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
+  
+  <script src="jquery.drop.js" type="text/javascript" charset="utf-8"></script>
+  <script src="jquery.upload.js" type="text/javascript" charset="utf-8"></script>
+  
+  <style type="text/css" media="screen">
+    #drop {
+      margin: 30px;
+      padding: 30px;
+      text-align: center;
+      border: 10px dashed magenta;
+    }
+    
+    #drop.dragOver {
+      border-color: #29ABE2;
+    }    
+  </style>
+  
+  <script type="text/javascript" charset="utf-8">
+    jQuery(function($){
+      
+      var uploadFile = function(file){
+        var element = $("<div />");
+        element.text(file.fileName);
+
+        var bar = $("<div />");
+        element.append(bar);
+        $("#progress").append(element);
+
+        var onProgress = function(e){
+          var per = Math.round((e.position / e.total) * 100);
+          bar.progressbar({value: per});
+        };
+
+        var onSuccess = function(){
+          element.text("Complete");
+          element.delay(1000).fade();
+        };
+
+        $.upload("http://example.com", file, {upload: {progress: onProgress}, success: onSuccess});
+      };
+      
+      var drop = $("#drop");
+      drop.dropArea();
+
+      drop.bind("drop", function(e){ 
+        e.stopPropagation();
+        e.preventDefault();
+
+        var files = e.originalEvent.dataTransfer.files;
+        for ( var i = 0; i < files.length; i++)
+          uploadFile(files[i]);
+
+        return false;
+      });
+    });
+  </script>
+</head>
+<body>
+  <div id="drop"><h1>Drop files on me!</h1>
+    
+  <div id="progress">
+    
+  </div>
+</body>
+</html>
