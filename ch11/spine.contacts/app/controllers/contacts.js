@@ -14,7 +14,7 @@ jQuery(function($){
       "click .optSave": "save"
     },
     
-    scoped: ["render", "show", "edit"],
+    proxied: ["render", "show", "edit"],
     
     init: function(){
       this.editEl.hide();

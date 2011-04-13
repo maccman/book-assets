@@ -18,7 +18,7 @@ window.Sidebar = Spine.Controller.create({
   
   // Ensure these functions are called with the current
   // scope as they're used in event callbacks
-  scoped: ["render"],
+  proxied: ["render"],
   
   // Render template
   template: function(items){
