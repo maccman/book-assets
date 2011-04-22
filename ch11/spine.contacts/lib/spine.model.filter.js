@@ -25,7 +25,7 @@
   };
 
   Spine.Model.Filter = {
-    setup: function(){
+    extended: function(){
       this.extend(extend);
       this.include(include);
     }

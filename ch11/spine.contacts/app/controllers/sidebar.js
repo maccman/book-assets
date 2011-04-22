@@ -1,7 +1,7 @@
 jQuery(function($){
 
 window.Sidebar = Spine.Controller.create({
-  // Create instance variables:
+  // Create initance variables:
   //  this.items //=> <ul></ul>
   //  this.input //=> <input />
   elements: {
@@ -26,7 +26,7 @@ window.Sidebar = Spine.Controller.create({
   },
   
   init: function(){
-    this.list = Spine.List.inst({
+    this.list = Spine.List.init({
       el: this.items,
       template: this.template
     });

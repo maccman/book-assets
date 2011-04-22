@@ -1,7 +1,9 @@
 jQuery(function($){
   
-  window.TaskController = Spine.Controller.create({
+  window.Tasks = Spine.Controller.create({
     tag: "li",
+    
+    proxied: ["render", "remove"],
     
     events: {
       "change   input[type=checkbox]": "toggle",
@@ -17,7 +19,6 @@ jQuery(function($){
     },
     
     init: function(){
-      this.proxyAll("render", "remove");
       this.item.bind("update",  this.render);
       this.item.bind("destroy", this.remove);
     },
@@ -57,13 +58,14 @@ jQuery(function($){
     }
   });
   
-  window.AppController = Spine.Controller.create({
+  window.TaskApp = Spine.Controller.create({
     el: $("#tasks"),
+    
+    proxied: ["addOne", "addAll", "renderCount"],
 
     events: {
-      "submit form":    "create",
-      "click  .clear":  "clear",
-      "render .items":  "renderCount"
+      "submit form":   "create",
+      "click  .clear": "clear"
     },
 
     elements: {
@@ -74,7 +76,6 @@ jQuery(function($){
     },
     
     init: function(){
-      this.proxyAll("addOne", "addAll", "renderCount");
       Task.bind("create",  this.addOne);
       Task.bind("refresh", this.addAll);
       Task.bind("refresh change", this.renderCount);
@@ -82,14 +83,14 @@ jQuery(function($){
     },
     
     addOne: function(task) {
-      var view = TaskController.inst({item: task});
+      var view = Tasks.init({item: task});
       this.items.append(view.render().el);
     },
 
     addAll: function() {
       Task.each(this.addOne);
     },
-
+        
     create: function(){
       Task.create({name: this.input.val()});
       this.input.val("");
@@ -109,5 +110,5 @@ jQuery(function($){
     }
   });
   
-  window.App = AppController.inst();
+  window.App = TaskApp.init();
 });

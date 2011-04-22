@@ -8,10 +8,10 @@ jQuery(function($){
     },
     
     init: function(){
-      this.sidebar = Sidebar.inst({el: this.sidebarEl});
-      this.contact = Contacts.inst({el: this.contactsEl});
+      this.sidebar = Sidebar.init({el: this.sidebarEl});
+      this.contact = Contacts.init({el: this.contactsEl});
       
       Contact.fetch();
     }
-  }).inst();
+  }).init();
 });

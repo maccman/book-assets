@@ -6,31 +6,38 @@ var getUrl = function(object){
 };
 
 var methodMap = {
-  "create": "POST",
-  "update": "PUT",
-  "delete": "DELETE",
-  "read"  : "GET"
+  "create":  "POST",
+  "update":  "PUT",
+  "destroy": "DELETE",
+  "read":    "GET"
 };
 
 var urlError = function() {
   throw new Error("A 'url' property or function must be specified");
 };
 
-var ajaxSync = function(method, record){
+var ajaxSync = function(e, method, record){  
+  
   var params = {
-    type:          methodMap[method];,
+    type:          methodMap[method],
     contentType:  "application/json",
     dataType:     "json",
     processData:  false
   };
+    
+  params.url = getUrl(record);
+  if (!params.url) throw("Invalid URL");
   
-  params.url = getUrl(record) || throw("Invalid URL");
-  
-  if (record && (method == "create" || method == "update"))
+  if (method == "create" || method == "update")
     params.data = JSON.stringify(record);
+    
+  if (method == "read")
+    params.success = function(data){
+      (record.populate || record.load)(data);
+    };
 
   params.error = function(e){
-    if (record) record.trigger("error", e);
+    record.trigger("error", e);
   };
   
   $.ajax(params);
@@ -38,25 +45,27 @@ var ajaxSync = function(method, record){
 
 
 Spine.Model.Ajax = {
-  extended: function(){
+  extended: function(){    
     this.sync(ajaxSync);
     this.fetch(this.proxy(function(e){
       ajaxSync(e, "read", this);
     }));
-    
-    this.include({
-      url: function(){
-        var base = getUrl(this.parent);
-        base += (base.charAt(base.length - 1) == "/" ? "" : "/");
-        base += encodeURIComponent(this.id);
-        return base;        
-      }
-    })
-  },
-  
-  url: function() {
-    return "/" + this.name + "s"
   }
 };
+
+Spine.Model.extend({
+  url: function() {
+    return "/" + this.name.toLowerCase() + "s"
+  }  
+});
+
+Spine.Model.include({
+  url: function(){
+    var base = getUrl(this.parent);
+    base += (base.charAt(base.length - 1) == "/" ? "" : "/");
+    base += encodeURIComponent(this.id);
+    return base;        
+  }  
+});
 
 })(jQuery);
