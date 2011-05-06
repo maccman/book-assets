@@ -43,7 +43,7 @@ $.ajaxTransport("+*", function(s){
 
 var defaults = {
   processData: false,
-  contentType: "multipart/form-data",
+  contentType: false,
   type:        "POST",
   useXHR2:      true,
   upload:      {}
