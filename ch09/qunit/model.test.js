@@ -5,7 +5,7 @@ module("Model test", {
 });
 
 test("load()", function(){
-  var a = this.Asset.inst();
+  var a = this.Asset.init();
   a.load({
     local: true, 
     name: "test.pdf"
@@ -14,7 +14,7 @@ test("load()", function(){
   ok(a.local, "Load sets properties");
   equals(a.name, "test.pdf", "load() sets properties (2)");
   
-  var b = this.Asset.inst({
+  var b = this.Asset.init({
     name: "test2.pdf"
   });
   
@@ -24,7 +24,7 @@ test("load()", function(){
 test("attributes()", function(){
   this.Asset.attributes = ["name"];
 
-  var a = this.Asset.inst();
+  var a = this.Asset.init();
   a.name = "test.pdf";
   a.id   = 1;
 

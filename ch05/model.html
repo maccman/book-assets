@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Binding</title>
+  <script src="lib/jquery.js" type="text/javascript" charset="utf-8"></script>
+  <script src="lib/jquery.tmpl.js" type="text/javascript" charset="utf-8"></script>  
+  
+  <script type="text/javascript" charset="utf-8">
+    var User = function(name){
+      this.name = name;
+    };
+
+    User.records = []
+
+    User.bind = function(ev, callback) {
+      var calls = this._callbacks || (this._callbacks = {});
+      (this._callbacks[ev] || (this._callbacks[ev] = [])).push(callback);
+    };
+
+    User.trigger = function(ev) {
+      var list, calls, i, l;
+      if (!(calls = this._callbacks)) return this;
+      if (!(list  = this._callbacks[ev])) return this;
+      jQuery.each(list, function(){ this() })
+    };
+    
+    User.create = function(name){
+      this.records.push(new this(name));
+      this.trigger("change")
+    };
+
+    jQuery(function($){
+      User.bind("change", function(){
+        var template = $("#userTmpl").tmpl(User.records);
+    
+        $("#users").empty();        
+        $("#users").append(template);
+      });
+      
+      User.create("First one");
+      
+      setTimeout(function(){
+        User.create("Another one");
+      }, 2000);
+    });
+  </script>
+</head>
+
+<body>
+  <script id="userTmpl" type="text/x-jquery-tmpl">
+    <li>${name}</li>
+  </script>
+  
+  <ul id="users">
+  </ul>
+</body>
+</html>

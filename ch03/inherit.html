@@ -37,7 +37,7 @@
       return object;
     },
     
-    inst: function(){
+    init: function(){
       var instance = Object.create(this.prototype);
       instance.parent = this;
       instance.init.apply(instance, arguments);
@@ -76,7 +76,7 @@
       this.records = {};
       
       for (var i=0, il = values.length; i < il; i++) {    
-        var record = this.inst(values[i]);
+        var record = this.init(values[i]);
         record.newRecord = false;
         this.records[record.id] = record;
       }
@@ -135,7 +135,7 @@
   var Asset = Model.create("Asset");
   var Person = Model.create("Person");
   
-  var asset = Asset.inst();
+  var asset = Asset.init();
   asset.load({one: 1});
     
   </script>

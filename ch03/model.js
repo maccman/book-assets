@@ -41,7 +41,7 @@ Model.extend({
    this.records = {};
    
    for (var i=0, il = values.length; i < il; i++) {    
-     var record = this.inst(values[i]);
+     var record = this.init(values[i]);
      record.newRecord = false;
      this.records[record.id] = record;
    }
@@ -109,7 +109,7 @@ Model.extend({
  },
  
  create: function(atts){
-   var record = this.inst(atts);
+   var record = this.init(atts);
    record.save();
    return record;
  },
