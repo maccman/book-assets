@@ -38,8 +38,8 @@
       
       mod.load(function(){
         this.view = $("#view");
-        this.view.mouseover(this.proxy(this.toggleClass), true);
-        this.view.mouseout(this.proxy(this.toggleClass), false);
+        this.view.mouseover(this.proxy(this.toggleClass));
+        this.view.mouseout(this.proxy(this.toggleClass));
       });
       
     })(jQuery, Controller);
