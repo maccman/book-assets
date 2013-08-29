@@ -24,7 +24,6 @@
   };
 
   var Model = {
-    init: function(){ },
     
     prototype: {
       init: function(){}
@@ -33,7 +32,7 @@
     create: function(){
       var object = Object.create(this);
       object.parent = this;
-      object.init.apply(object, arguments);
+      object.created.apply(object, arguments);
       return object;
     },
     
@@ -61,7 +60,7 @@
   };
   
   Model.extend({
-    init: function(){
+    created: function(){
       this.records = {};
       this.attributes = [];
     },
